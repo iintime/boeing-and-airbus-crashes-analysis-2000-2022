@@ -13,12 +13,9 @@ df_clean <- df[!duplicated(df), ]
 # create year column
 df_clean$Year <- year(df_clean$Date)
 
-#check
+#check column name
 nrow(df_clean)
 colnames(df_clean)
-
-
-
 
 #### Question  
 ### 1.Which manufacturer made highest accident?
@@ -37,7 +34,6 @@ ggplot(aircrashes_all_reason, aes(Year, fill=Manufacturer)) +
   theme_economist() +
   scale_fill_manual(values=c('#43766C', '#6C22A6'))
   
-
 # plot2 : pie chart
 # percentage
 percentage_manufacturer <-aircrashes_all_reason %>%
@@ -62,14 +58,7 @@ ggplot(percentage_manufacturer, aes(x="", y=percentage, fill=Manufacturer)) +
         plot.title = element_text(hjust = 0.5, size = 18)) +
   ggtitle("Crashed by All Reason") 
 
-
-
-
-
-
 ### 2. Which aircraft type has the highest accident?
-
-
 count_type <- head(aircrashes_all_reason %>%
                      select(Aircraft) %>%
                      group_by(Aircraft) %>%
@@ -87,7 +76,6 @@ count_type %>%
   theme(legend.title=element_text(size=8)) +
   scale_fill_manual(values=c('#96E9C6', '#83C0C1', '#37B5B6', '#6962AD', '#6C22A6'))
 
-
 ### 3. What are the reason of accident?
 crash_cause <- select(aircrashes_all_reason, Manufacturer, `Crash cause`)
 
@@ -98,19 +86,16 @@ ggplot(crash_cause, aes(Manufacturer, fill=`Crash cause`)) +
   ggtitle("Crash Causes") +
   scale_fill_manual(values=c('#96E9C6', '#0F1035', '#37B5B6', '#FF004D', '#FFC436', '#401F71'))
 
-
 # Let's see how many case of accident that cause by technical failure?
 # filter for Boeing and Airbus crash (Technical failure)
 aircrashes_technical_reason <- aircrashes_all_reason %>%
   filter(grepl("Technical failure", `Crash cause`))
-
 
 # percentage
 percentage_thechnical_reason <-aircrashes_technical_reason %>%
   group_by(Manufacturer) %>%
   summarize(counts = n(),
             percentage = n()/nrow(aircrashes_technical_reason))
-
 
 # Plot Pie Chart
 ggplot(percentage_thechnical_reason, aes(x="", y=percentage, fill=Manufacturer)) +
@@ -126,9 +111,6 @@ ggplot(percentage_thechnical_reason, aes(x="", y=percentage, fill=Manufacturer))
         axis.title = element_blank(), 
         plot.title = element_text(hjust = 0.5, size = 18)) +
   ggtitle("Crashed by Technical Failure") 
-
-
-
 
 ### 4. What aircraft type is the highest accident cause by technical failure in each manufacturer? 
 ## Boeing
